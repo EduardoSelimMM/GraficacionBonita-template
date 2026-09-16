@@ -10,4 +10,4 @@ Imports:
     reticulate,
     gghighlight,
     palmerpenguins,
-    rbokeh
+    highcharter
