@@ -7,4 +7,6 @@ Imports:
     ggplot2,
     knitr,
     rmarkdown,
-    reticulate
+    reticulate,
+    gghighlight,
+    palmerpenguins
