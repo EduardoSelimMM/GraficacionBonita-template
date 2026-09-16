@@ -6,28 +6,27 @@ format: dashboard
 ## Row {height=70%}
 
 ```{r}
-library(rbokeh)
+library(palmerpenguins)
+library(highcharter)
+library(forecast)
 ```
 
 ```{r}
-p <- figure() |>
-  ly_points(Sepal.Length, Sepal.Width, data = iris,
-    color = Species, glyph = Species,
-    hover = list(Sepal.Length, Sepal.Width))
-p
+hchart(
+  penguins,
+  "scatter",
+  hcaes(x = flipper_length_mm, y = bill_length_mm, group = species)
+)
 ```
 
 ## Row {height=30%}
 
 ```{r}
-z <- lm(dist ~ speed, data = cars)
-p <- figure(width = 600, height = 600) |>
-  ly_points(cars, hover = cars) |>
-  ly_lines(lowess(cars), legend = "lowess") |>
-  ly_abline(z, type = 2, legend = "lm")
-p
+airforecast <- forecast(auto.arima(AirPassengers), level = 95)
+hchart(airforecast)
 ```
 
 ```{r}
-figure() |> ly_hexbin(rnorm(10000), rnorm(10000))
+hchart(mtcars, "scatter", hcaes(wt, mpg, z = drat, color = hp)) |>
+  hc_title(text = "Scatter chart with size and color")
 ```
