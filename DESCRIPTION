@@ -9,4 +9,5 @@ Imports:
     rmarkdown,
     reticulate,
     gghighlight,
-    palmerpenguins
+    palmerpenguins,
+    rbokeh
