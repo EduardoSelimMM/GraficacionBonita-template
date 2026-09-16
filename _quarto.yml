@@ -29,6 +29,9 @@ website:
       - section: "Reporte en slides embebido en el sitio"
         contents:
           - mis_reportes/ver-slides-01.qmd
+      - section: "Quinto reporte"
+        contents:
+          - mis_reportes/reporte-05.qmd
 
 format:
   html:
