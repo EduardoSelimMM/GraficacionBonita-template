@@ -32,6 +32,9 @@ website:
       - section: "Quinto reporte"
         contents:
           - mis_reportes/reporte-05.qmd
+      - section: "Sexto reporte"
+        contents:
+          - mis_reportes/reporte-06.qmd
 
 format:
   html:
