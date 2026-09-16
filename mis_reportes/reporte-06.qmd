@@ -1,0 +1,33 @@
+---
+title: "Un formato de dashboard"
+format: dashboard
+---
+    
+## Row {height=70%}
+
+```{r}
+library(rbokeh)
+```
+
+```{r}
+p <- figure() |>
+  ly_points(Sepal.Length, Sepal.Width, data = iris,
+    color = Species, glyph = Species,
+    hover = list(Sepal.Length, Sepal.Width))
+p
+```
+
+## Row {height=30%}
+
+```{r}
+z <- lm(dist ~ speed, data = cars)
+p <- figure(width = 600, height = 600) |>
+  ly_points(cars, hover = cars) |>
+  ly_lines(lowess(cars), legend = "lowess") |>
+  ly_abline(z, type = 2, legend = "lm")
+p
+```
+
+```{r}
+figure() |> ly_hexbin(rnorm(10000), rnorm(10000))
+```
