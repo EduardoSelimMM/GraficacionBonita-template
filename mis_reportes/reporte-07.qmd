@@ -48,6 +48,8 @@ Using callouts is an effective way to highlight content that your reader give sp
 # Gráfica alluvial
 
 ```{r}
+#| warning: false
+
 library(dplyr)
 library(ggplot2)
 library(ggalluvial)
@@ -71,6 +73,8 @@ Hagamos una grafiquita sencilla
 
 
 ```{r}
+#| warning: false
+
 ggplot(datos,
        aes(axis1 = carrera_inicial, axis2 = carrera_final, y = n)) +
   geom_alluvium(aes(fill = carrera_inicial)) +
@@ -84,6 +88,8 @@ ggplot(datos,
 # Grafiquitas con texto
 
 ```{r}
+#| warning: false
+
 library(geomtextpath)
 library(palmerpenguins)
 ```
@@ -126,6 +132,8 @@ mtcars |> head()
 ```
 
 ```{r}
+#| warning: false
+
 mtcars |> ggplot(aes(x = mpg, y = disp)) + 
   geom_point() + 
   geom_texthline(yintercept = 200, label = "Línea que quiero evidenciar", 
@@ -166,7 +174,7 @@ p <- ggplot(gapminder, aes(x = gdpPercap, y = lifeExp, size = pop, colour = coun
   scale_size(range = c(2, 12)) +
   scale_x_log10() +
   facet_wrap(~continent) +
-  labs(title = 'Year: {frame_time}', x = 'GDP per capita', y = 'life expectancy') +
+  labs(title = 'Año: {frame_time}', x = 'GDP per capita', y = 'esperanza de vida') +
   theme_minimal()
 
 p +
@@ -178,9 +186,9 @@ p +
 p <- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
   geom_point(size = 3) +
   labs(
-    title = "Car Weight vs MPG",
+    title = "Peso v.s. MPG",
     subtitle = "Gear: {closest_state}",
-    x = "Weight (1000 lbs)", y = "Miles per Gallon"
+    x = "Peso (1000 lbs)", y = "Millas por galón"
   ) +
   theme_minimal()
 
@@ -194,15 +202,15 @@ p +
 ```
 
 ```{r}
-p <- ggplot(gapminder, aes(gdpPercap, lifeExp, size = pop, color = continent)) +
+p <- ggplot(gapminder, aes(x = gdpPercap, y = lifeExp, size = pop, color = continent)) +
   geom_point(alpha = 0.7) +
   scale_color_viridis_d() +
   scale_size(range = c(2, 12)) +
   scale_x_log10() +
   labs(
-    title = "Year: {frame_time}",
+    title = "Año: {frame_time}",
     x = "GDP per capita",
-    y = "Life expectancy"
+    y = "Esperanza de vida"
   ) +
   theme_minimal()
 
@@ -224,10 +232,10 @@ data |> head()
 p <- ggplot(data, aes(x = cyl, y = mpg, fill = cyl)) +
   geom_col() +
   labs(
-    title = "Average MPG by Number of Cylinders",
-    subtitle = "Showing: {closest_state}",
-    x = "Number of Cylinders",
-    y = "Average Miles per Gallon"
+    title = "Millas por galón promedio (MPG) en función del número de cilindros",
+    subtitle = "Se observa: {closest_state}",
+    x = "Número de cilindros",
+    y = "Millas por galón promedio"
   ) +
   theme_minimal()
 
@@ -237,16 +245,50 @@ p +
   exit_shrink()
 ```
 
+# Nuestra vieja amiga: Plotly
+
+```{r}
+library(plotly)
+```
+
++ Usando el dataset `diamonds`
+
+```{r}
+diamonds |> head()
+```
+
++ Una de las funciones más utilizadas es `ggplotly` que convierte una gráfica de ggplot2 en una con algunas características tipo Plotly
+
+```{r}
+p <- ggplot(data = diamonds, aes(x = cut, fill = clarity)) +
+            geom_bar(position = "dodge")
+
+ggplotly(p)
+```
+
++ También se puede usar sintaxis nativa de Plotly
+
+```{r}
+#| warning: false
+set.seed(2026)
+
+d <- diamonds[sample(nrow(diamonds), 500), ]
+plot_ly(d, x = d$carat, y = d$price, 
+        text = paste("Clarity: ", d$clarity),
+        mode = "markers", color = d$carat, size = d$carat)
+```
+
 # Las tablas ya también se consideran como visualizaciones
 
 ```{r}
+#| warning: false
+
 library(kableExtra)
 ```
 
 ```{r}
 df <- na.omit(penguins)
 df <- df[order(df$species, df$body_mass_g, decreasing = c(FALSE, TRUE)), ]
-df <- head(df, 12)
 
 # Se crea columna de masa corporal con gradiente de color (viridis)
 df$body_mass_g <- cell_spec(
@@ -267,11 +309,13 @@ df |>
                     "Aleta (mm)", "Masa (g)", "Sexo", "Año")) |>
   kable_styling(bootstrap_options = c("striped", "hover")) |>
   kable_paper() |>
-  add_header_above(c(" " = 2, "Medidas físicas" = 4, " " = 2)) |>
+  add_header_above(c(" " = 2, "Dataset de los pingüinos" = 4, " " = 2)) |>
+  column_spec(2, color = 'red') |>
   column_spec(1, bold = TRUE) |>
+  column_spec(3, background = 'lightblue') |>
   collapse_rows(columns = 1, valign = "top") |>
-  row_spec(0, background = "#2c3e50", color = "white") |>
-  footnote(general = "Datos: Librería palmerpenguins. Ordenado por especie y masa corporal descendente.") |>
+  row_spec(0, background = "lavender", color = "white") |>
+  footnote(general = "Datos de la librería palmerpenguins") |>
   scroll_box(width = "100%", height = "400px")
 ```
 Se ve intimidante pero no...
@@ -286,4 +330,4 @@ Se ve intimidante pero no...
 
 + `footnote()` coloca una nota al pie explicando la fuente u otro comentario que quieras
 
-+ Como tomamos 12 filas, `scroll_box()` le mete scroll vertical para que no alargue la página
++ Como estamos mostrando muchas filas, `scroll_box()` le mete scroll vertical para que no alargue la página
