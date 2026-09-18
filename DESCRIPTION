@@ -12,4 +12,4 @@ Imports:
     palmerpenguins,
     highcharter,
     forecast,
-    ggbump
+    ggstream
