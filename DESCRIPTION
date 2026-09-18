@@ -12,5 +12,4 @@ Imports:
     palmerpenguins,
     highcharter,
     forecast,
-    ggstream,
     ggalluvial
