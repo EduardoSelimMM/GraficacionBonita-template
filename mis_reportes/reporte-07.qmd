@@ -43,21 +43,22 @@ Using callouts is an effective way to highlight content that your reader give sp
 
 ```{r}
 library(ggplot2)
-library(ggbump)
+library(ggstream)
+library(ggalluvial)
 ```
-
-Con la librería `{ggbump}` se hacen "bump charts" que muestran cómo cambian rankings a lo largo del tiempo (típico para ranking de equipos, ventas por región, etc.).
 
 Nuestros datos:
 
 ```{r}
 datos <- data.frame(
-  pais = rep(c("México", "Brasil", "Argentina", "Chile"), each = 3),
-  anio = rep(c(2022, 2023, 2024), times = 4),
-  ranking = c(1, 2, 1,   # México
-              2, 1, 3,   # Brasil
-              3, 4, 2,   # Argentina
-              4, 3, 4)   # Chile
+  anio = rep(2018:2024, times = 4),
+  lenguaje = rep(c("Python", "R", "JavaScript", "Rust"), each = 7),
+  popularidad = c(
+    20, 28, 35, 45, 55, 62, 68,   # Python
+    18, 20, 19, 17, 15, 13, 11,   # R
+    30, 32, 30, 28, 25, 22, 20,   # JavaScript
+    2, 4, 8, 14, 20, 28, 35       # Rust
+  )
 )
 ```
 
@@ -67,12 +68,43 @@ datos |> head(n = 10)
 
 Hagamos una grafiquita sencilla
 
+
 ```{r}
-ggplot(datos, aes(x = anio, y = ranking, color = pais)) +
-  geom_bump(size = 1.5, smooth = 8) +
-  geom_point(size = 4) +
-  scale_y_reverse(breaks = 1:4) +
-  labs(title = "Cambio de ranking por año",
-       x = "Año", y = "Posición") +
+ggplot(datos, aes(x = anio, y = popularidad, fill = lenguaje)) +
+  geom_stream(type = "mirror", bw = 0.75) +
+  scale_fill_manual(values = c("Python" = "red", 
+                                "R" = "blue",
+                                "JavaScript" = "green",
+                                "Rust" = "yellow")) +
+  labs(title = "Evolución de popularidad de lenguajes",
+       subtitle = "2018-2024",
+       x = NULL, y = NULL) +
+  theme_minimal() +
+  theme(axis.text.y = element_blank(),
+        panel.grid = element_blank())
+```
+
++ La librería `{ggalluvial}` nos ayuda a mostrar cómo fluyen categorías entre etapas
+
+```{r}
+datos <- data.frame(
+  carrera_inicial = c("Ing.", "Ing.", "Diseño", "Diseño", "Negocios", "Negocios"),
+  carrera_final   = c("Ing.", "Datos", "Diseño", "Datos", "Negocios", "Datos"),
+  n = c(40, 15, 30, 10, 25, 20)
+)
+```
+
+```{r}
+datos |> head()
+```
+
+```{r}
+ggplot(datos,
+       aes(axis1 = carrera_inicial, axis2 = carrera_final, y = n)) +
+  geom_alluvium(aes(fill = carrera_inicial)) +
+  geom_stratum() +
+  geom_text(stat = "stratum", aes(label = after_stat(stratum))) +
+  scale_x_discrete(limits = c("Año 1", "Año 2")) +
+  labs(title = "Cambio de carrera entre año 1 y año 2", y = "Estudiantes") +
   theme_minimal()
 ```
