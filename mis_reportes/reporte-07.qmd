@@ -6,43 +6,64 @@ date: "2026-09-15"
 
 # Callouts a.k.a cajitas importantes
 
-Los callouts sirven para resaltar contenido que quieras que las personas lectoras vean sí o sí.
++ Los callouts sirven para resaltar contenido que quieras que las personas lectoras vean sí o sí
+
++ Hay 5 tipos de callouts: `note`, `warning`, `important`, `tip` y `caution`
+
++ Para definirlos hay que usar los fenced divs `:::` seguidos de `{.callout-TIPO-ESPECIFICO}`
+
+```
+::: {.callout-note}
+Contenido...
+:::
+```
+
++ Variando `{.callout-note}`, `{.callout-warning}`, `{.callout-important}`, `{.callout-tip}`, `{.callout-caution}` 
 
 ::: {.callout-note}
-Hay 5 tipos de callouts:
-`note`, `warning`, `important`, `tip`, and `caution`.
+Esta es una nota que quiero que las personas lectoras vean con atención
 :::
+
++ Le puedo poner título a mis callouts
 
 ::: {.callout-tip}
-## Tip with Title
+## Tip con mi título específico
 
-This is an example of a callout with a title.
+Suele callout-tip suele usarse para dar tips a lo largo del documento
 :::
+
++ Se puede hacer que se contraigan o expandan las cajitas del callout con `collapse="true"`
 
 ::: {.callout-caution collapse="true"}
-## Expand To Learn About Collapse
+## Expande para ver el mensaje completo
 
-This is an example of a 'folded' caution callout that can be expanded by the user. You can use `collapse="true"` to collapse it by default or `collapse="false"` to make a collapsible callout that is expanded by default.
+El callout-caution es un mensaje de "precaución". Se puede usar `collapse="true"` para colapsar o `collapse="false"` (que es el default) para que la cajita aparezca siempre expandida
 :::
 
-::: {.callout-tip title="Tip with Title"}
-This is a callout with a title.
++ Otro ejemplito:
+
+::: {.callout-tip title="Tip con título"}
+Hay más de una forma de colocarle un título a un callout
 :::
+
++ Los callouts de warning son para indicar algo que puede ser peligroso
+
+::: {.callout-warning}
+Peligro, peligro!! Si esta gráfica luce decreciente es que estamos en quiebra
+:::
+
++ Con `appearance="simple"` se le puede quitar el fondo al título del callout
 
 ::: {.callout-note appearance="simple"}
-
-## Pay Attention
-
-Using callouts is an effective way to highlight content that your reader give special consideration or attention.
-
+## Nota importante:
+Los datos que se utilizaron para este análisis corresponden a los del Q4 de 2025
 :::
 
++ Se le puede quitar el ícono con `icon=false`
+
 ::: {.callout-note icon=false}
-
-## Pay Attention
-
-Using callouts is an effective way to highlight content that your reader give special consideration or attention.
-
+## Calloout sin título
+Le quité el ícono al callout, ¿porqué? porque puedo :)
 :::
 
 # Gráfica alluvial
