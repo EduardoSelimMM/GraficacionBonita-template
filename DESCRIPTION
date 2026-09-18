@@ -18,4 +18,5 @@ Imports:
     gganimate,
     gifski,
     transformr,
-    kableExtra
+    kableExtra,
+    plotly
