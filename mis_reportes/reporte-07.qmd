@@ -233,3 +233,41 @@ p +
   enter_grow() +
   exit_shrink()
 ```
+
+# Las tablas ya también se consideran como visualizaciones
+
+```{r}
+library(kableExtra)
+```
+
+```{r}
+df <- na.omit(penguins)
+df <- df[order(df$species, df$body_mass_g, decreasing = c(FALSE, TRUE)), ]
+df <- head(df, 12)
+
+# Se crea columna de masa corporal con gradiente de color (viridis)
+df$body_mass_g <- cell_spec(
+  df$body_mass_g,
+  color = "white",
+  background = spec_color(df$body_mass_g, option = "viridis")
+)
+```
+
+```{r}
+df |> head()
+```
+
+```{r}
+df |>
+  kbl(align = "c", escape = FALSE,
+      col.names = c("Especie", "Isla", "Pico (largo)", "Pico (alto)",
+                    "Aleta (mm)", "Masa (g)", "Sexo", "Año")) |>
+  kable_styling(bootstrap_options = c("striped", "hover")) |>
+  kable_paper() |>
+  add_header_above(c(" " = 2, "Medidas físicas" = 4, " " = 2)) |>
+  column_spec(1, bold = TRUE) |>
+  collapse_rows(columns = 1, valign = "top") |>
+  row_spec(0, background = "#2c3e50", color = "white") |>
+  footnote(general = "Datos: Librería palmerpenguins. Ordenado por especie y masa corporal descendente.") |>
+  scroll_box(width = "100%", height = "400px")
+```
