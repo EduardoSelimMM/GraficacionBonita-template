@@ -9,7 +9,7 @@ date: "2026-09-15"
 Los callouts sirven para resaltar contenido que quieras que las personas lectoras vean sí o sí.
 
 ::: {.callout-note}
-Note that there are five types of callouts, including:
+Hay 5 tipos de callouts:
 `note`, `warning`, `important`, `tip`, and `caution`.
 :::
 
@@ -48,6 +48,7 @@ Using callouts is an effective way to highlight content that your reader give sp
 # Gráfica alluvial
 
 ```{r}
+library(dplyr)
 library(ggplot2)
 library(ggalluvial)
 ```
@@ -137,3 +138,84 @@ mtcars |> ggplot(aes(x = mpg, y = disp)) +
 ```
 
 # Algunas gráficas "en movimiento"
+
+```{r}
+library(gganimate)
+library(gapminder)
+```
+
++ Usaremos datos de la librería `{gapminder}`
+
+```{r}
+gapminder |> head(n = 10)
+```
+
+```{r}
+p <- ggplot(gapminder, aes(x = gdpPercap, y = lifeExp, size = pop, colour = country)) +
+  geom_point(alpha = 0.7, show.legend = FALSE) +
+  scale_x_log10() +
+  labs(title = "Año: {frame_time}") +
+  theme_minimal()
+
+p + transition_time(year) + ease_aes("linear")
+```
+
+```{r}
+p <- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
+  geom_point(size = 3) +
+  labs(
+    title = "Car Weight vs MPG",
+    subtitle = "Gear: {closest_state}",
+    x = "Weight (1000 lbs)", y = "Miles per Gallon"
+  )
+
+p +
+  transition_states(gear,
+    transition_length = 2,
+    state_length = 1
+  ) +
+  enter_fade() +
+  exit_fade()
+```
+
+```{r}
+p <- ggplot(gapminder, aes(gdpPercap, lifeExp, size = pop, color = continent)) +
+  geom_point(alpha = 0.7) +
+  scale_color_viridis_d() +
+  scale_size(range = c(2, 12)) +
+  scale_x_log10() +
+  labs(
+    title = "Year: {frame_time}",
+    x = "GDP per capita",
+    y = "Life expectancy"
+  )
+
+p +
+  transition_time(year) +
+  ease_aes("linear")
+```
+
+```{r}
+data <- mtcars |>
+  mutate(cyl = factor(cyl)) |>
+  group_by(cyl) |>
+  summarize(mpg = mean(mpg))
+
+data |> head()
+```
+
+```{r}
+p <- ggplot(data, aes(x = cyl, y = mpg, fill = cyl)) +
+  geom_col() +
+  labs(
+    title = "Average MPG by Number of Cylinders",
+    subtitle = "Showing: {closest_state}",
+    x = "Number of Cylinders",
+    y = "Average Miles per Gallon"
+  )
+
+p +
+  transition_states(cyl) +
+  enter_grow() +
+  exit_shrink()
+```
