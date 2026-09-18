@@ -17,4 +17,5 @@ Imports:
     gapminder,
     gganimate,
     gifski,
-    transformr
+    transformr,
+    kableExtra
