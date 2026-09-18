@@ -43,45 +43,7 @@ Using callouts is an effective way to highlight content that your reader give sp
 
 ```{r}
 library(ggplot2)
-library(ggstream)
 library(ggalluvial)
-```
-
-Nuestros datos:
-
-```{r}
-datos <- data.frame(
-  anio = rep(2018:2024, times = 4),
-  lenguaje = rep(c("Python", "R", "JavaScript", "Rust"), each = 7),
-  popularidad = c(
-    20, 28, 35, 45, 55, 62, 68,   # Python
-    18, 20, 19, 17, 15, 13, 11,   # R
-    30, 32, 30, 28, 25, 22, 20,   # JavaScript
-    2, 4, 8, 14, 20, 28, 35       # Rust
-  )
-)
-```
-
-```{r}
-datos |> head(n = 10)
-```
-
-Hagamos una grafiquita sencilla
-
-
-```{r}
-ggplot(datos, aes(x = anio, y = popularidad, fill = lenguaje)) +
-  geom_stream(type = "mirror", bw = 0.75) +
-  scale_fill_manual(values = c("Python" = "red", 
-                                "R" = "blue",
-                                "JavaScript" = "green",
-                                "Rust" = "yellow")) +
-  labs(title = "Evolución de popularidad de lenguajes",
-       subtitle = "2018-2024",
-       x = NULL, y = NULL) +
-  theme_minimal() +
-  theme(axis.text.y = element_blank(),
-        panel.grid = element_blank())
 ```
 
 + La librería `{ggalluvial}` nos ayuda a mostrar cómo fluyen categorías entre etapas
@@ -97,6 +59,9 @@ datos <- data.frame(
 ```{r}
 datos |> head()
 ```
+
+Hagamos una grafiquita sencilla
+
 
 ```{r}
 ggplot(datos,
