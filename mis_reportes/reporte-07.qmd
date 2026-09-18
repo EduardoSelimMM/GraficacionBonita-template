@@ -161,6 +161,20 @@ p + transition_time(year) + ease_aes("linear")
 ```
 
 ```{r}
+p <- ggplot(gapminder, aes(x = gdpPercap, y = lifeExp, size = pop, colour = country)) +
+  geom_point(alpha = 0.7, show.legend = FALSE) +
+  scale_size(range = c(2, 12)) +
+  scale_x_log10() +
+  facet_wrap(~continent) +
+  labs(title = 'Year: {frame_time}', x = 'GDP per capita', y = 'life expectancy') +
+  theme_minimal()
+
+p +
+  transition_time(year) +
+  ease_aes('linear')
+```
+
+```{r}
 p <- ggplot(mtcars, aes(x = wt, y = mpg, color = factor(cyl))) +
   geom_point(size = 3) +
   labs(
