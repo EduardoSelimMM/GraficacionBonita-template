@@ -40,3 +40,39 @@ Using callouts is an effective way to highlight content that your reader give sp
 Using callouts is an effective way to highlight content that your reader give special consideration or attention.
 
 :::
+
+```{r}
+library(ggplot2)
+library(ggbump)
+```
+
+Con la librería `{ggbump}` se hacen "bump charts" que muestran cómo cambian rankings a lo largo del tiempo (típico para ranking de equipos, ventas por región, etc.).
+
+Nuestros datos:
+
+```{r}
+datos <- data.frame(
+  pais = rep(c("México", "Brasil", "Argentina", "Chile"), each = 3),
+  anio = rep(c(2022, 2023, 2024), times = 4),
+  ranking = c(1, 2, 1,   # México
+              2, 1, 3,   # Brasil
+              3, 4, 2,   # Argentina
+              4, 3, 4)   # Chile
+)
+```
+
+```{r}
+datos |> head(n = 10)
+```
+
+Hagamos una grafiquita sencilla
+
+```{r}
+ggplot(datos, aes(x = anio, y = ranking, color = pais)) +
+  geom_bump(size = 1.5, smooth = 8) +
+  geom_point(size = 4) +
+  scale_y_reverse(breaks = 1:4) +
+  labs(title = "Cambio de ranking por año",
+       x = "Año", y = "Posición") +
+  theme_minimal()
+```
