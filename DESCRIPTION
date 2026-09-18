@@ -13,4 +13,7 @@ Imports:
     highcharter,
     forecast,
     ggalluvial,
-    geomtextpath
+    geomtextpath,
+    gganimate,
+    gifski,
+    transformr
