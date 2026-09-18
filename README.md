@@ -48,5 +48,11 @@ Ir a Settings -> Pages -> Build and deployment -> Source -> GitHub Actions. Lo �
 
 + El archivo `reporte-06.qmd` muestra un formato que no habíamos visto hasta el momento: el formato dashboard
 
-+ El archivo `reporte-05.qmd` 
++ El archivo `reporte-05.qmd` muestra una líbrería para resaltar algunos resultados gráficamente y muestra cómo se pueden definir sub-pestañas en cada página para mejorar la navegación a través del sitio web.
+
++ El archivo `reporte-07.qmd` muestra algunos elementos gráficos sencillos que ayudan a que las visualizaciones comuniquen mejor
+
++ Finalmente revisa el archivo `_quarto.yml` para que veas que efectivamente mostramos los reportes 5, 6 y 7
+
++ Sólo por curiosidad, nota que en los archivos `requirements.txt` y `DESCRIPTION` aparecen los nombres de librerías de R/Python que no usamos en las sesiones anteriores pero ahora sí
 
