@@ -35,6 +35,9 @@ website:
       - section: "Sexto reporte"
         contents:
           - mis_reportes/reporte-06.qmd
+      - section: "Más reportes con gráficas"
+        contents:
+          - mis_reportes/reporte-07.qmd
 
 format:
   html:
