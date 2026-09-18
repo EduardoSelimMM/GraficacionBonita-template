@@ -132,6 +132,8 @@ mtcars |> ggplot(aes(x = mpg, y = disp)) +
   geom_textvline(xintercept = 20, label = "otra línea que quiero hacer notar", hjust = 0.8,
                  linetype = 2, vjust = 1.3, color = "blue") +
   geom_textabline(slope = 15, intercept = -100, label = "otra línea", 
-                  color = "green", hjust = 0.6, vjust = -0.2) +
+                  color = "aquamarine", hjust = 0.6, vjust = -0.2) +
   theme_minimal()
 ```
+
+# Algunas gráficas "en movimiento"
