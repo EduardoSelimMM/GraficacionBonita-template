@@ -4,6 +4,10 @@ description: "Análisis de los datos más bonito"
 date: "2026-09-15"
 ---
 
+# Callouts a.k.a cajitas importantes
+
+Los callouts sirven para resaltar contenido que quieras que las personas lectoras vean sí o sí.
+
 ::: {.callout-note}
 Note that there are five types of callouts, including:
 `note`, `warning`, `important`, `tip`, and `caution`.
@@ -41,6 +45,8 @@ Using callouts is an effective way to highlight content that your reader give sp
 
 :::
 
+# Gráfica alluvial
+
 ```{r}
 library(ggplot2)
 library(ggalluvial)
@@ -71,5 +77,61 @@ ggplot(datos,
   geom_text(stat = "stratum", aes(label = after_stat(stratum))) +
   scale_x_discrete(limits = c("Año 1", "Año 2")) +
   labs(title = "Cambio de carrera entre año 1 y año 2", y = "Estudiantes") +
+  theme_minimal()
+```
+
+# Grafiquitas con texto
+
+```{r}
+library(geomtextpath)
+library(palmerpenguins)
+```
+
++ Las funciones de la librería `{geomtextpath}` te deja poner el texto directamente sobre la línea/curva (que sigue su forma), en vez de usar leyenda aparte.
+
++ Usaremos los datos de los pingüinos que ya hemos usado antes
+
+```{r}
+ggplot(na.omit(penguins), aes(x = flipper_length_mm, color = species)) +
+  geom_textdensity(aes(label = species), size = 5, fontface = "bold",
+                    hjust = 0.3, vjust = -0.3) +
+  labs(title = "Distribución del largo de aleta por especie",
+       x = "Largo de aleta (mm)", y = NULL) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
++ Se puede hacer más aún...
+
++ Con el iris dataset:
+
+```{r}
+iris |> head()
+```
+
+```{r}
+ggplot(iris, aes(x = Sepal.Length, y = Petal.Length, color = Species)) +
+  geom_point() +
+  geom_labelsmooth(aes(label = Species), fill = "black",
+                method = "loess", formula = y ~ x,
+                size = 4, linewidth = 1, boxlinewidth = 0.3) +
+  theme_minimal() + guides(color = 'none')
+```
+
++ Usando los datos de `mtcars`:
+
+```{r}
+mtcars |> head()
+```
+
+```{r}
+mtcars |> ggplot(aes(x = mpg, y = disp)) + 
+  geom_point() + 
+  geom_texthline(yintercept = 200, label = "Línea que quiero evidenciar", 
+                 hjust = 0.8, color = "red") +
+  geom_textvline(xintercept = 20, label = "otra línea que quiero hacer notar", hjust = 0.8,
+                 linetype = 2, vjust = 1.3, color = "blue") +
+  geom_textabline(slope = 15, intercept = -100, label = "otra línea", 
+                  color = "green", hjust = 0.6, vjust = -0.2) +
   theme_minimal()
 ```
