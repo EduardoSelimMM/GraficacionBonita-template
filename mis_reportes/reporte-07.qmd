@@ -62,11 +62,15 @@ Los datos que se utilizaron para este análisis corresponden a los del Q4 de 202
 + Se le puede quitar el ícono con `icon=false`
 
 ::: {.callout-note icon=false}
-## Calloout sin título
+## Callout sin ícono
 Le quité el ícono al callout, ¿porqué? porque puedo :)
 :::
 
-# Gráfica alluvial
+# Gráfica aluvial
+
++ Una gráfica aluvial (o diagrama aluvial) es un tipo de diagrama de flujo que muestra cómo cambian los grupos o las categorías de datos a lo largo del tiempo o entre diferentes fases
+
++ Sirve para ver cambios. Analizar cómo evoluciona un grupo de personas o datos en varias etapas
 
 ```{r}
 #| warning: false
@@ -90,7 +94,7 @@ datos <- data.frame(
 datos |> head()
 ```
 
-Hagamos una grafiquita sencilla
++ Hagamos una grafiquita sencilla
 
 
 ```{r}
@@ -106,6 +110,8 @@ ggplot(datos,
   theme_minimal()
 ```
 
++ Para aprender más sobre las funciones de esta librería ve a: https://cran.r-project.org/web/packages/ggalluvial/vignettes/ggalluvial.html
+
 # Grafiquitas con texto
 
 ```{r}
@@ -115,7 +121,7 @@ library(geomtextpath)
 library(palmerpenguins)
 ```
 
-+ Las funciones de la librería `{geomtextpath}` te deja poner el texto directamente sobre la línea/curva (que sigue su forma), en vez de usar leyenda aparte.
++ Las funciones de la librería `{geomtextpath}` te dejan poner el texto directamente sobre la línea/curva (que sigue su forma), en vez de usar leyenda aparte.
 
 + Usaremos los datos de los pingüinos que ya hemos usado antes
 
@@ -166,7 +172,18 @@ mtcars |> ggplot(aes(x = mpg, y = disp)) +
   theme_minimal()
 ```
 
++ Para aprender más sobre las funciones de esta librería ve a: https://allancameron.github.io/geomtextpath/
+
 # Algunas gráficas "en movimiento"
+
++ `gganimate` sirve para convertir un gráfico estático de `ggplot2` en una animación, i.e. en vez de una sola imagen, se genera una secuencia de cuadros (frames) que se reproducen como GIF o video, mostrando cómo cambian los datos a través de una variable (normalmente tiempo, pero puede ser cualquier categoría).
+
++ ¿Para qué se usan?
+
+  + Mostrar evolución con respecto al tiempo
+  + Comparar categorías de forma dinámica, es más llamativo para presentaciones
+  + Mostrar una historia progresivamente. Por ejemplo, una línea de tiempo que se va "dibujando" a medida que avanza el tiempo, en vez de mostrar toda la serie de una vez (efecto muy usado en redes sociales / dashboards).
+  + Comunicar en contextos donde una imagen estática no alcanza. Un GIF capta más atención y puede mostrar más información (el eje del tiempo) sin ocupar más espacio.
 
 ```{r}
 library(gganimate)
@@ -266,6 +283,29 @@ p +
   exit_shrink()
 ```
 
++ `{gganimate}` organiza sus funciones en familias, según qué aspecto de la animación controlan
+
++ Transiciones: con `transition_*()`
+
+  + Definen cómo se reparten los datos en el tiempo. Son el "corazón" de la librería, porque son para definir la transición que define la animación:
+
+    + `transition_states()`: entre estados discretos (categorías)
+    + `transition_time()`: a lo largo de una variable temporal continua
+    + `transition_reveal()`: muestra los datos progresivamente (líneas que se "dibujan")
+    + `transition_layers()`: anima capas del gráfico apareciendo una a una
+    + `transition_manual()`: control manual, cuadro por cuadro
+    + `transition_filter()`: transiciona entre subconjuntos definidos por filtros lógicos
+
++ Vistas: con `view_*()`
+  + Controlan cómo cambian los ejes/escalas durante la animación:
+  + `view_follow()` para que la vista "siga" los datos (útil si se mueven fuera del rango inicial)
+  + `view_step()` / `view_step_manual()` para cambiar la vista en pasos discretos
+  + `view_zoom()` / `view_zoom_manual()` para hacer zoom animado
+
++ Easing (se traduce algo así como flexibilización, atenuación o suavizado) con `ease_aes()`. Define la "velocidad" del cambio (lineal, cúbico, rebote, etc.) para cada aesthetic.
+
++ Para aprender más sobre las funciones de esta librería ve a: https://gganimate.com/
+
 # Nuestra vieja amiga: Plotly
 
 ```{r}
@@ -300,6 +340,16 @@ plot_ly(d, x = d$carat, y = d$price,
 ```
 
 # Las tablas ya también se consideran como visualizaciones
+
++ La librería `{kableExtra}` tiene funciones para darle estilo y funcionalidad extra a las tablas que generás con `kable()` (la función básica de tablas de `knitr`)
+
++ Las funciones de `kableExtra` hace que la tabla se vea profesional/legible/interactiva
+
++ Tiene funciones para colorear celdas, filas o columnas según su valor (`column_spec()` y `cell_spec()`)
+
++ Para tablas más compactas/organizadas. Por ejemplo para agrupar columnas bajo encabezados comunes (`add_header_above()`), fusionar celdas repetidas (`collapse_rows()`), o meter tablas grandes en un scroll (`scroll_box()`) sin que "rompan" el layout de la página
+
++ También para el formato final, como por ejemplo notas al pie (`footnote()`), texto en negrita/color condicional, o exportar la misma tabla a distintos formatos (HTML, LaTeX/PDF, Word) manteniendo el estilo
 
 ```{r}
 #| warning: false
